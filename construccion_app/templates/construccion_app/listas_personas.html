@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Trabajadores | Construcción</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'construccion_app/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Trabajadores</h1>
+        
+        <div class="search-container form-container">
+            <form method="get" class="search-form">
+                <div class="input-wrapper">
+                    <input type="text" name="q" value="{{ query }}" placeholder="Buscar por cédula, nombres o apellidos" class="form-control">
+                </div>
+                
+                <div class="select-wrapper">
+                    <select name="tarea" class="form-control">
+                        <option value="">Todas las tareas</option>
+                        {% for value, label in tareas_choices %}
+                            <option value="{{ value }}" {% if tarea_filter == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">Buscar</button>
+                <a href="{% url 'lista_personas' %}" class="btn" style="background-color: #6c757d;">Limpiar</a>
+            </form>
+        </div>
+        
+        <div class="list-container">
+            {% if personas %}
+                {% for persona in personas %}
+                    <div class="list-item">
+                        <strong>{{ persona.nombres }} {{ persona.apellidos }}</strong>
+                        <div style="margin-top: 0.5rem;">
+                            <small>Cédula: {{ persona.cedula_formateada }}</small> | 
+                            <small>Tarea: {{ persona.get_tarea_display }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="list-item">
+                    No se encontraron trabajadores con los criterios de búsqueda.
+                </div>
+            {% endif %}
+        </div>
+        
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="{% url 'agregar_persona' %}" class="btn">Agregar Nuevo Trabajador</a>
+        </div>
+    </div>
+</body>
+</html>

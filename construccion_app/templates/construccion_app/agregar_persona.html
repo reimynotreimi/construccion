@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Trabajador | Construcción</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'construccion_app/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar Trabajador de Construcción</h1>
+        
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="input-wrapper">
+                    <label for="id_cedula">Cédula:</label>
+                    <input type="text" name="cedula" id="id_cedula" required maxlength="11" placeholder="Ingrese la cédula">
+                    {% if form.cedula.errors %}
+                        <div class="alert alert-error">{{ form.cedula.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="input-wrapper">
+                    <label for="id_nombres">Nombres:</label>
+                    <input type="text" name="nombres" id="id_nombres" required maxlength="100" placeholder="Nombres completos">
+                </div>
+                
+                <div class="input-wrapper">
+                    <label for="id_apellidos">Apellidos:</label>
+                    <input type="text" name="apellidos" id="id_apellidos" required maxlength="100" placeholder="Apellidos completos">
+                </div>
+                
+                <div class="select-wrapper">
+                    <label for="id_tarea">Tarea:</label>
+                    {{ form.tarea }}
+                    {% if form.tarea.errors %}
+                        <div class="alert alert-error">{{ form.tarea.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-block">Guardar Trabajador</button>
+            </form>
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'lista_personas' %}" class="link">← Ver lista de trabajadores</a>
+        </div>
+    </div>
+</body>
+</html>
